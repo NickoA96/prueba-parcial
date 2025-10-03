@@ -62,14 +62,13 @@ void Examen::Punto1(){
 
 ///punto 2
 bool ya_procesado(int v[], int tam, ServicioMesa registro){
-    bool yaProcesado = false;
-    for (int x = 0; x< tam; x++ ){
-        if(v[x] == registro.getIDPlato()){
-            yaProcesado = true;
-            break;
+
+    for (int i = 0; i< tam; i++ ){
+        if(v[i] == registro.getIDPlato()){
+            return true;
         }
     }
-    return yaProcesado;
+    return false;
 }
 
 
