@@ -61,6 +61,17 @@ void Examen::Punto1(){
 
 
 ///punto 2
+bool ya_procesado(int v[], int tam, ServicioMesa registro){
+    bool yaProcesado = false;
+    for (int x = 0; x< tam; x++ ){
+        if(v[x] == registro.getIDPlato()){
+            yaProcesado = true;
+            break;
+        }
+    }
+    return yaProcesado;
+}
+
 
 void Examen::Punto2() {
     ArchivoServicioMesa archivo("restaurant.dat");
@@ -76,18 +87,10 @@ void Examen::Punto2() {
         registro = archivo.Leer(i);
         float recaudacionPlatoActual = registro.getImporte() ;
         int numeroPlatoActual= registro.getIDPlato();
-        bool yaProcesado = false;
 
-        for (int x = 0; x< platosCalculados; x++ ){
-            if(v[x] == registro.getIDPlato()){
-                yaProcesado = true;
-                break;
-            }
+        if (ya_procesado(v, platosCalculados, registro)) continue;
 
-        }
-        if (yaProcesado) continue;
-
-        for(int j = i+1; j<cantidadRegistros; j++){
+        for(int j = 0 ; j<cantidadRegistros; j++){
             registro2 = archivo.Leer(j);
             if(numeroPlatoActual == registro2.getIDPlato() ){
                 recaudacionPlatoActual += registro2.getImporte();
