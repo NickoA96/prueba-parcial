@@ -61,7 +61,7 @@ void Examen::Punto1(){
 
 
 ///punto 2
-bool ya_procesado(int v[], int tam, ServicioMesa registro){
+bool ya_procesado(int *v , int tam, ServicioMesa registro){
 
     for (int i = 0; i< tam; i++ ){
         if(v[i] == registro.getIDPlato()){
@@ -70,7 +70,6 @@ bool ya_procesado(int v[], int tam, ServicioMesa registro){
     }
     return false;
 }
-
 
 void Examen::Punto2() {
     ArchivoServicioMesa archivo("restaurant.dat");
