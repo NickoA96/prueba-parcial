@@ -48,7 +48,7 @@ void Examen::Punto1(){
    int i, cantidadRegistros = archivo.CantidadRegistros();
    cout << "********************" << endl << endl << endl;
     cout << "Promedio: " << promedio << endl;
-   cout << "Servicios de mesa con valoracion mayor al promedio" << endl << endl;
+   cout << "Servicios de mesa con valoracion mayor al promedio: " << endl << endl;
 
    for(i = 0; i < cantidadRegistros; i++){
       registro = archivo.Leer(i);
