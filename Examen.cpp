@@ -42,30 +42,32 @@ float PromedioPuntaje(){
 
 void Examen::Punto1(){
     float promedio = PromedioPuntaje();
-    ArchivoServicioMesa archivo("restaurant.dat");
-    ServicioMesa registro;
+    int cantidad = 0;
+    if(promedio <= 0.0f){
+        cout << "No se encuentran registros" << endl;
+    }else{
+        ArchivoServicioMesa archivo("restaurant.dat");
+        ServicioMesa registro;
+        int i, cantidadRegistros = archivo.CantidadRegistros();
+        for(i = 0; i < cantidadRegistros; i++){
+            registro = archivo.Leer(i);
+            if(registro.getPuntajeObtenido() > promedio){
+                cantidad++;
+            }
+        }
 
-   int i, cantidadRegistros = archivo.CantidadRegistros();
-   cout << "********************" << endl << endl << endl;
-    cout << "Promedio: " << promedio << endl;
-   cout << "Servicios de mesa con valoracion mayor al promedio: " << endl << endl;
-
-   for(i = 0; i < cantidadRegistros; i++){
-      registro = archivo.Leer(i);
-      if(registro.getPuntajeObtenido() > promedio){
-
-        cout << registro.toCSV() << endl;
-      }
-   }
-   cout << "********************" << endl << endl << endl;
-
+        cout << "********************" << endl;
+        cout << "Promedio: " << promedio << endl;
+        cout << "Cantidad de mesa con valoracion mayor al promedio: " << cantidad << endl;
+        cout << "********************" << endl;
+    }
 }
 
 ///punto 2
-bool ya_procesado(int *v , int tam, ServicioMesa registro){
+bool ya_procesado(int *v , int tam, int id){
 
     for (int i = 0; i< tam; i++ ){
-        if(v[i] == registro.getIDPlato()){
+        if(v[i] == id){
             return true;
         }
     }
@@ -84,10 +86,10 @@ void Examen::Punto2() {
 
     for(i = 0; i < cantidadRegistros; i++){
         registro = archivo.Leer(i);
-        float recaudacionPlatoActual = registro.getImporte() ;
+        float recaudacionPlatoActual = 0 ;
         int numeroPlatoActual= registro.getIDPlato();
 
-        if (ya_procesado(v, platosCalculados, registro)) continue;
+        if (ya_procesado(v, platosCalculados, numeroPlatoActual)) continue;
 
         for(int j = 0 ; j<cantidadRegistros; j++){
             registro2 = archivo.Leer(j);
@@ -100,23 +102,23 @@ void Examen::Punto2() {
         platosCalculados++;
 
         if(recaudacionPlatoActual > recaudacionMayorXPlato){
-            idPlatoMayor = registro.getIDPlato();
+            idPlatoMayor = numeroPlatoActual;
             recaudacionMayorXPlato = recaudacionPlatoActual;
         }
     }
     delete []v;
     cout << "El plato con mayor recaudacion es :" << idPlatoMayor<<endl;
-
+    cout << "********************" << endl;
 }
 
 ///punto 3
 void Examen::Punto3(){
      ArchivoServicioMesa archivo("restaurant.dat");
-   ServicioMesa registro,registro2,registro3;
+   ServicioMesa registro,registro2;
 
    int i, cantidadRegistros = archivo.CantidadRegistros();
    int idMozoMayorRecaudacionPropinas=-1;
-   float propinasMaximas=0;
+   float propinasMaximas= -1;
    int *v;
    v = new int [cantidadRegistros]{};
    int mozosRegistrados=0;
@@ -128,7 +130,7 @@ void Examen::Punto3(){
       float propinasMozoActual= 0;
 
       if( anioRegistro == 2024){
-        if(ya_procesado(v,mozosRegistrados, registro)){
+        if(ya_procesado(v,mozosRegistrados, idMozoActual)){
             continue;
         }else{
             for(int j = 0; j<cantidadRegistros; j++){
@@ -150,5 +152,11 @@ void Examen::Punto3(){
       }
     }
     delete [] v;
-    cout << "El mozo con mayor recaudacion de propinas es : " << idMozoMayorRecaudacionPropinas << endl;
+    if(idMozoMayorRecaudacionPropinas == -1){
+        cout << "No se encuentran registros en el 2024 " <<endl;
+        cout << "********************" << endl;
+    }else{
+        cout << "El mozo con mayor recaudacion de propinas es : " << idMozoMayorRecaudacionPropinas << endl;
+        cout << "********************" << endl;
+    }
 }
