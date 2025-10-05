@@ -113,7 +113,7 @@ void Examen::Punto3(){
    ServicioMesa registro,registro2;
 
    int i, cantidadRegistros = archivo.CantidadRegistros();
-   int idMozoMayorRecaudacionPropinas;
+   int idMozoMayorRecaudacionPropinas=-1;
    float propinasMaximas=0;
    int *v;
    v = new int [cantidadRegistros]{};
@@ -126,23 +126,27 @@ void Examen::Punto3(){
       float propinasMozoActual= 0;
 
       if( anioRegistro == 2024){
-        if(ya_procesado(v,mozosRegistrados, registro)){continue;}
+        if(ya_procesado(v,mozosRegistrados, registro)){
+            continue;
         }else{
             for(int j = 0; j<cantidadRegistros; j++){
                 registro2 = archivo.Leer(j);
-                int idMozoActual2 = registro.getIDMozo();
-                int anioRegistro2 = registro.getFecha().getAnio();
+                int idMozoActual2 = registro2.getIDMozo();
+                int anioRegistro2 = registro2.getFecha().getAnio();
                 if(idMozoActual == idMozoActual2 && anioRegistro2 == anioRegistro){
-                    propinasMozoActual = registro2.getPropina();
+                    propinasMozoActual += registro2.getPropina();
                 }
             }
         }
+        v[mozosRegistrados] = idMozoActual;
+        mozosRegistrados++;
+
         if(propinasMozoActual > propinasMaximas){
             propinasMaximas = propinasMozoActual;
             idMozoMayorRecaudacionPropinas = idMozoActual;
-            mozosRegistrados++;
         }
       }
+    }
     delete [] v;
     cout << "El mozo con mayor recaudacion de propinas es : " << idMozoMayorRecaudacionPropinas << endl;
 }
