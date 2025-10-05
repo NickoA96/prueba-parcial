@@ -42,12 +42,14 @@ float PromedioPuntaje(){
 
 void Examen::Punto1(){
     float promedio = PromedioPuntaje();
-    cout << "Promedio: " << promedio << endl;
     ArchivoServicioMesa archivo("restaurant.dat");
     ServicioMesa registro;
 
    int i, cantidadRegistros = archivo.CantidadRegistros();
    cout << "********************" << endl << endl << endl;
+    cout << "Promedio: " << promedio << endl;
+   cout << "Servicios de mesa con valoracion mayor al promedio" << endl << endl;
+
    for(i = 0; i < cantidadRegistros; i++){
       registro = archivo.Leer(i);
       if(registro.getPuntajeObtenido() > promedio){
@@ -110,7 +112,7 @@ void Examen::Punto2() {
 ///punto 3
 void Examen::Punto3(){
      ArchivoServicioMesa archivo("restaurant.dat");
-   ServicioMesa registro,registro2;
+   ServicioMesa registro,registro2,registro3;
 
    int i, cantidadRegistros = archivo.CantidadRegistros();
    int idMozoMayorRecaudacionPropinas=-1;
